@@ -1,0 +1,11 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+Comm_GetConfig	cm_cfg.c	/^int Comm_GetConfig(char * sConfigFileFullPath, ...)$/;"	f
+_GetNameAndVal	cm_cfg.c	/^static int _GetNameAndVal(char * sLine, char * sName, char * sVal)$/;"	f	file:
+_InitDefault	cm_cfg.c	/^static void _InitDefault(va_list ap)$/;"	f	file:
+_SetVal	cm_cfg.c	/^static int _SetVal(va_list ap, char * sName, char * sVal)$/;"	f	file:
+_get_name	cm_cfg.c	/^static int _get_name(char * desc, char *src)$/;"	f	file:
