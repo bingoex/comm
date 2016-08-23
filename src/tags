@@ -4,8 +4,47 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
+ARGS	Makefile	/^ARGS = -g -Wall -fno-strict-aliasing$/;"	m
+CC	Makefile	/^CC = g++$/;"	m
+CFG_DOUBLE	cm_cfg.h	13;"	d
+CFG_INT	cm_cfg.h	11;"	d
+CFG_LONG	cm_cfg.h	12;"	d
+CFG_STRING	cm_cfg.h	10;"	d
+CM_INT32	cm_type.h	11;"	d
+CM_INT32	cm_type.h	7;"	d
+CPPSRC	Makefile	/^CPPSRC=$(shell ls *.cpp)$/;"	m
+CSRC	Makefile	/^CSRC=$(shell ls *.c)$/;"	m
 Comm_GetConfig	cm_cfg.c	/^int Comm_GetConfig(char * sConfigFileFullPath, ...)$/;"	f
+DEBUG	Makefile	/^DEBUG= -g$/;"	m
+DateTimeToStr	cm_time.c	/^char *DateTimeToStr(const time_t tTime)$/;"	f
+FILE_SUFFIX_LEN	cm_log.c	13;"	d	file:
+InitLogFile	cm_log.c	/^int InitLogFile(LogFile * pstLogFile, const char *sBaseFileName, int iShiftType, int iMaxLogNum, CM_INT32 lMaxSize)$/;"	f
+LOG_FORMAT_TYPE_NOTIME	cm_log.h	38;"	d
+LOG_FORMAT_TYPE_TIME	cm_log.h	39;"	d
+LOG_SHIFT_BY_COUNT	cm_log.h	36;"	d
+LOG_SHIFT_BY_SIZE	cm_log.h	35;"	d
+Log	cm_log.c	/^int Log(LogFile *pstLogFile, int iLogFormat, const char *sFormat, ...)$/;"	f
+LogFile	cm_log.h	/^} LogFile;$/;"	t	typeref:struct:__anon1
+MAX_CONFIG_LEN	cm_cfg.c	7;"	d	file:
+MAX_LOG_FILE_NAME_LEN	cm_log.h	13;"	d
+OBJS	Makefile	/^OBJS=$(CSRC:.c=.o) $/;"	m
+STRING_BUFFER_LEN	cm_time.c	6;"	d	file:
+ShiftFiles	cm_log.c	/^static int ShiftFiles(LogFile *pstLogFile)$/;"	f	file:
+_CM_CFG_H_	cm_cfg.h	2;"	d
+_CM_LOG_H_	cm_log.h	2;"	d
+_CM_TIME_H_	cm_time.h	2;"	d
+_CM_TYPE_H_	cm_type.h	2;"	d
 _GetNameAndVal	cm_cfg.c	/^static int _GetNameAndVal(char * sLine, char * sName, char * sVal)$/;"	f	file:
 _InitDefault	cm_cfg.c	/^static void _InitDefault(va_list ap)$/;"	f	file:
-_SetVal	cm_cfg.c	/^static int _SetVal(va_list ap, char * sName, char * sVal)$/;"	f	file:
-_get_name	cm_cfg.c	/^static int _get_name(char * desc, char *src)$/;"	f	file:
+_SetVal	cm_cfg.c	/^static int _SetVal(va_list ap, char *sCfgName, char *sCfgVal)$/;"	f	file:
+_get_name	cm_cfg.c	/^static int _get_name(char * desc, char * src)$/;"	f	file:
+iMaxLogNum	cm_log.h	/^	int iMaxLogNum;$/;"	m	struct:__anon1
+iShiftType	cm_log.h	/^	int iShiftType;$/;"	m	struct:__anon1
+lLastShiftTime	cm_log.h	/^	CM_INT32 lLastShiftTime;$/;"	m	struct:__anon1
+lLogLineCount	cm_log.h	/^	CM_INT32 lLogLineCount;$/;"	m	struct:__anon1
+lMaxCount	cm_log.h	/^	CM_INT32 lMaxCount;$/;"	m	struct:__anon1
+lMaxFileSize	cm_log.h	/^	CM_INT32 lMaxFileSize;$/;"	m	struct:__anon1
+lMaxLineCount	cm_log.h	/^	CM_INT32 lMaxLineCount;$/;"	m	struct:__anon1
+pLogFile	cm_log.h	/^	FILE *pLogFile;$/;"	m	struct:__anon1
+sBaseFileName	cm_log.h	/^	char sBaseFileName[MAX_LOG_FILE_NAME_LEN];$/;"	m	struct:__anon1
+sLogFileName	cm_log.h	/^	char sLogFileName[MAX_LOG_FILE_NAME_LEN];$/;"	m	struct:__anon1

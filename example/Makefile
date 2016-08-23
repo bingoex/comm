@@ -11,7 +11,7 @@ COMM_DIR = ../src
 #-lr -lstdc++
 COMM_LIB = $(COMM_DIR)/cm_lib.a -I$(COMM_DIR) 
 
-ALL_BINARY = test_cm_cfg
+ALL_BINARY = test_cm_cfg test_cm_log
 
 ARGS = -g -Wall -fno-strict-aliasing #-Qunused-arguments
 
@@ -22,8 +22,14 @@ CC = g++
 
 ALL : $(ALL_BINARY)
 
-$(ALL_BINARY) : $(OBJS)
+#$(ALL_BINARY) : $(OBJS)
+#	$(CC) $(ARGS) -o $@ $^ $(COMM_LIB)
+
+test_cm_cfg : test_cm_cfg.o
 	$(CC) $(ARGS) -o $@ $^ $(COMM_LIB)
 	
+test_cm_log : test_cm_log.o
+	$(CC) $(ARGS) -o $@ $^ $(COMM_LIB)
+
 clean:
 	rm -rf *.o *.a $(ALL_BINARY)
