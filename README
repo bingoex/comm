@@ -2,3 +2,6 @@ A common lib for all C* project
 
 cm_cfg
 	a config file parse module
+
+cm_log
+	a log module

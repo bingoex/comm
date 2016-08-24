@@ -28,7 +28,7 @@ static int ShiftFiles(LogFile *pstLogFile)
 			stStat.st_size, pstLogFile->lMaxFileSize, pstLogFile->lLogLineCount, pstLogFile->lMaxLineCount);
 
 	switch (pstLogFile->iShiftType) {
-		case LOG_SHIFT_BY_SIZE:
+		case LOG_SHIFT_BY_SIZE://0
 			if (stStat.st_size < pstLogFile->lMaxFileSize) { //don't need shift so that return
 				return 0;
 			}
@@ -42,9 +42,9 @@ static int ShiftFiles(LogFile *pstLogFile)
 	}
 
 	//run here means that should shift file  
-	printf("iMaxLogNum %d\n", pstLogFile->iMaxLogNum);
+	//printf("iMaxLogNum %d\n", pstLogFile->iMaxLogNum);
 	for (i = pstLogFile->iMaxLogNum - 2; i >= 0; i--) {
-		printf("shifting i %d\n", i);
+		//printf("shifting i %d\n", i);
 		if (i == 0)
 			snprintf(sOldFileName, sizeof(sOldFileName),  "%s.log", pstLogFile->sBaseFileName);
 		else
@@ -54,7 +54,7 @@ static int ShiftFiles(LogFile *pstLogFile)
 		if (!access(sOldFileName, F_OK)) {
 			snprintf(sNewFileName, sizeof(sNewFileName), "%s%d.log", pstLogFile->sBaseFileName, i + 1);
 
-			printf("sOldFileName %s --> sNewFileName %s\n", sOldFileName, sNewFileName);
+			//printf("sOldFileName %s --> sNewFileName %s\n", sOldFileName, sNewFileName);
 
 			if (rename(sOldFileName, sNewFileName) < 0) {
 				printf("rename false errno(%d)\n", errno);
@@ -96,7 +96,7 @@ int InitLogFile(LogFile * pstLogFile, const char *sBaseFileName, int iShiftType,
 	pstLogFile->lLogLineCount = 0;
 	pstLogFile->lLastShiftTime = time(NULL);
 
-	printf("iShiftType %d iMaxLogNum %d lMaxFileSize %d\n", iShiftType, iMaxLogNum, lMaxSize);
+	printf("iShiftType %d iMaxLogNum %d lMaxFileSize %d lMaxLineCount %d\n", iShiftType, iMaxLogNum, lMaxSize, lMaxSize);
 
 	return ShiftFiles(pstLogFile);
 }
@@ -104,7 +104,7 @@ int InitLogFile(LogFile * pstLogFile, const char *sBaseFileName, int iShiftType,
 
 int Log(LogFile *pstLogFile, int iLogFormat, const char *sFormat, ...)
 {
-	printf("Log bein\n");
+	//printf("Log bein\n");
 	va_list ap;
 	struct timeval stLogTv;
 
@@ -120,7 +120,7 @@ int Log(LogFile *pstLogFile, int iLogFormat, const char *sFormat, ...)
 			gettimeofday(&stLogTv, NULL);
 			fprintf(pstLogFile->pLogFile, "[%s.%.6u]", DateTimeToStr(stLogTv.tv_sec), (unsigned int)stLogTv.tv_usec);
 
-			printf("%s\n", DateTimeToStr(stLogTv.tv_sec));
+			//printf("%s\n", DateTimeToStr(stLogTv.tv_sec));
 			break;
 	}
 
@@ -134,7 +134,7 @@ int Log(LogFile *pstLogFile, int iLogFormat, const char *sFormat, ...)
 	pstLogFile->lLogLineCount++;
 	fclose(pstLogFile->pLogFile);
 
-	printf("Log end\n");
+	//printf("Log end\n");
 
 	return ShiftFiles(pstLogFile);
 }

@@ -1,0 +1,62 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+ALL_BINARY	example/Makefile	/^ALL_BINARY = test_cm_cfg test_cm_log$/;"	m
+ARGS	example/Makefile	/^ARGS = -g -Wall -fno-strict-aliasing #-Qunused-arguments$/;"	m
+ARGS	src/Makefile	/^ARGS = -g -Wall -fno-strict-aliasing$/;"	m
+CC	example/Makefile	/^CC = g++$/;"	m
+CC	src/Makefile	/^CC = g++$/;"	m
+CFG_DOUBLE	src/cm_cfg.h	13;"	d
+CFG_INT	src/cm_cfg.h	11;"	d
+CFG_LONG	src/cm_cfg.h	12;"	d
+CFG_STRING	src/cm_cfg.h	10;"	d
+CM_INT32	src/cm_type.h	11;"	d
+CM_INT32	src/cm_type.h	7;"	d
+COMM_DIR	example/Makefile	/^COMM_DIR = ..\/src$/;"	m
+COMM_LIB	example/Makefile	/^COMM_LIB = $(COMM_DIR)\/cm_lib.a -I$(COMM_DIR) $/;"	m
+CPPSRC	example/Makefile	/^CPPSRC=$(shell ls *.cpp)$/;"	m
+CPPSRC	src/Makefile	/^CPPSRC=$(shell ls *.cpp)$/;"	m
+CSRC	example/Makefile	/^CSRC=$(shell ls *.c)$/;"	m
+CSRC	src/Makefile	/^CSRC=$(shell ls *.c)$/;"	m
+Comm_GetConfig	src/cm_cfg.c	/^int Comm_GetConfig(char * sConfigFileFullPath, ...)$/;"	f
+DEBUG	example/Makefile	/^DEBUG=-g$/;"	m
+DEBUG	src/Makefile	/^DEBUG= -g$/;"	m
+DEFAULT_CONF_FILE	example/test_cm_cfg.c	6;"	d	file:
+DateTimeToStr	src/cm_time.c	/^char *DateTimeToStr(const time_t tTime)$/;"	f
+FILE_SUFFIX_LEN	src/cm_log.c	13;"	d	file:
+InitLogFile	src/cm_log.c	/^int InitLogFile(LogFile * pstLogFile, const char *sBaseFileName, int iShiftType, int iMaxLogNum, CM_INT32 lMaxSize)$/;"	f
+LOG_FORMAT_TYPE_NOTIME	src/cm_log.h	38;"	d
+LOG_FORMAT_TYPE_TIME	src/cm_log.h	39;"	d
+LOG_SHIFT_BY_COUNT	src/cm_log.h	36;"	d
+LOG_SHIFT_BY_SIZE	src/cm_log.h	35;"	d
+Log	src/cm_log.c	/^int Log(LogFile *pstLogFile, int iLogFormat, const char *sFormat, ...)$/;"	f
+LogFile	src/cm_log.h	/^} LogFile;$/;"	t	typeref:struct:__anon1
+MAX_CONFIG_LEN	src/cm_cfg.c	7;"	d	file:
+MAX_LOG_FILE_NAME_LEN	src/cm_log.h	13;"	d
+OBJS	example/Makefile	/^OBJS=$(CSRC:.c=.o) $/;"	m
+OBJS	src/Makefile	/^OBJS=$(CSRC:.c=.o) $/;"	m
+STRING_BUFFER_LEN	src/cm_time.c	5;"	d	file:
+ShiftFiles	src/cm_log.c	/^static int ShiftFiles(LogFile *pstLogFile)$/;"	f	file:
+_CM_CFG_H_	src/cm_cfg.h	2;"	d
+_CM_LOG_H_	src/cm_log.h	2;"	d
+_CM_TIME_H_	src/cm_time.h	3;"	d
+_CM_TYPE_H_	src/cm_type.h	2;"	d
+_GetNameAndVal	src/cm_cfg.c	/^static int _GetNameAndVal(char * sLine, char * sName, char * sVal)$/;"	f	file:
+_InitDefault	src/cm_cfg.c	/^static void _InitDefault(va_list ap)$/;"	f	file:
+_SetVal	src/cm_cfg.c	/^static int _SetVal(va_list ap, char *sCfgName, char *sCfgVal)$/;"	f	file:
+_get_name	src/cm_cfg.c	/^static int _get_name(char * desc, char * src)$/;"	f	file:
+iMaxLogNum	src/cm_log.h	/^	int iMaxLogNum;$/;"	m	struct:__anon1
+iShiftType	src/cm_log.h	/^	int iShiftType;$/;"	m	struct:__anon1
+lLastShiftTime	src/cm_log.h	/^	CM_INT32 lLastShiftTime;$/;"	m	struct:__anon1
+lLogLineCount	src/cm_log.h	/^	CM_INT32 lLogLineCount;$/;"	m	struct:__anon1
+lMaxCount	src/cm_log.h	/^	CM_INT32 lMaxCount;$/;"	m	struct:__anon1
+lMaxFileSize	src/cm_log.h	/^	CM_INT32 lMaxFileSize ;$/;"	m	struct:__anon1
+lMaxLineCount	src/cm_log.h	/^	CM_INT32 lMaxLineCount;$/;"	m	struct:__anon1
+main	example/test_cm_cfg.c	/^int main(int argc, char * argv[])$/;"	f
+main	example/test_cm_log.c	/^int main(int argc, char * argv[])$/;"	f
+pLogFile	src/cm_log.h	/^	FILE *pLogFile;$/;"	m	struct:__anon1
+sBaseFileName	src/cm_log.h	/^	char sBaseFileName[MAX_LOG_FILE_NAME_LEN];$/;"	m	struct:__anon1
+sLogFileName	src/cm_log.h	/^	char sLogFileName[MAX_LOG_FILE_NAME_LEN];$/;"	m	struct:__anon1

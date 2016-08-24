@@ -1,6 +1,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <time.h>
+
 #include "cm_time.h"
 
 #define STRING_BUFFER_LEN 50
