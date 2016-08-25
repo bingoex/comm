@@ -5,3 +5,6 @@ cm_cfg
 
 cm_log
 	a log module
+
+cm_shm
+	a system V shm tool module
