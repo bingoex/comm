@@ -24,7 +24,6 @@ int main(int argc, char * argv[])
 	int iRet = 0;
 
 	if (argc == 1) {
-		k
 		//chang the shm
 		iRet =GetShmEx((void **)&sShm, SHM_ID, sizeof(g_astPersons), IPC_CREAT | 0666);
 		printf("GetShmEx ret(%d)\n", iRet);
