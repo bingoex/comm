@@ -13,3 +13,12 @@ A common lib for all C* project
 
 ## cm_debug
 	a debug module
+
+## cm_net
+	a net sock module
+
+## cm_process
+	a process module
+
+## cm_math
+	a math module
