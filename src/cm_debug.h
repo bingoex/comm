@@ -20,6 +20,10 @@ extern "C" {
  */
 const char * DumpPackage(const void *pPkg, int iPkgLen);
 
+/*
+ * just print the raw hex data
+ */
+const char * DumpHex(const void *pMem, int iLen);
 #ifdef __cplusplus
 }
 #endif 

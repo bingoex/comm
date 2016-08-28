@@ -60,3 +60,28 @@ const char * DumpPackage(const void *pPkg, int iPkgLen)
 	}
 	return sBuf;
 }
+
+const char * DumpHex(const void *pMem, int iLen)
+{
+	int inc, i;
+	static char sBuf[PKG_LEN];
+	const char *pSrc = (const char *)pMem;
+	char *pDst = sBuf;
+
+	sBuf[0] = '\0';
+	for (i = 0; i < iLen; i++, pSrc++) {
+		
+		inc = snprintf(pDst, sBuf + sizeof(sBuf) - pDst, "%02X", (unsigned char) *pSrc);
+
+		if (inc < 0)
+			break;
+
+		pDst += inc;
+
+		if (pDst >= sBuf + sizeof(sBuf))
+			break;
+
+	}
+
+	return sBuf;
+}

@@ -1,4 +1,3 @@
-[![Build Status](https://github.com/bingoex/commr)](https://github.com/bingoex/comm)
 # Comm Lib #
 
 A common lib for all C* project 

@@ -7,5 +7,9 @@ int main()
 
 	printf("dump:\n%s\n", DumpPackage(sBuf, sizeof(sBuf)));
 
+	printf("dump:\n%s\n", DumpHex(sBuf, sizeof(sBuf)));
+
+
+
 	return 0;
 }
