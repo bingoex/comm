@@ -23,6 +23,14 @@ int GetDWord(char **p, int *piLen, unsigned CM_INT32 *plValue);
 int AddQWord(char **p, int *piLen, uint64_t qwValue);
 int GetQWord(char **p, int *piLen, uint64_t *pqwValue);
 
+int AddBuffer(char **p, int *piLen, const char *pBuf, CM_INT32 iBufLen);
+int GetBuffer(char **p, int *piLen, char *pBuf, unsigned CM_INT32 *piBufLen);
+
+int GetBufferPtr(char **p, int *piLen, char **pBufPtr, CM_INT32 *piBufLen);
+
+int AddBufferNoLen(char **p, int *piLen, const char *pBuf, CM_INT32 iBufLen);
+int GetBufferNoLen(char **p, int *piLen, char *pBuf, CM_INT32 iBufLen);
+
 static inline uint64_t hton64(uint64_t qwVal)
 {
 #if __BYTE_ORDER == __BIG_ENDIAN
@@ -37,6 +45,5 @@ static inline uint64_t hton64(uint64_t qwVal)
 #ifdef __cplusplus
 }
 #endif 
-
 
 #endif

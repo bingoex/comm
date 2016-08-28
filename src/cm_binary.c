@@ -230,3 +230,172 @@ int GetQWord(char **p, int *piLen, uint64_t *pqwValue)
 
 	return 0;
 }
+
+#define MAX_BUFFER_LEN (1024 * 1024)
+int AddBuffer(char **p, int *piLen, const char *pBuf, CM_INT32 iBufLen)
+{
+	int iLen = MAX_BUFFER_LEN;
+	char *pCur;
+	
+	//add the len
+	if (AddDWord(p, piLen, iBufLen) < 0)
+		return -1;
+
+	pCur = *p;
+	if (piLen)
+		iLen = *piLen;
+
+	if (iLen < iBufLen)
+		return -2;
+
+	//add the really buffer data
+	memcpy(pCur, pBuf, iBufLen);
+	pCur += iBufLen;
+	iLen -= iBufLen;
+
+	*p = pCur;
+
+	if (piLen)
+		*piLen = iLen;
+
+	return 0;
+}
+
+/*
+ *
+ * piBufLen max bigger then actually buffer data len
+ */ 
+int GetBuffer(char **p, int *piLen, char *pBuf, unsigned CM_INT32 *piBufLen)
+{
+	int iLen;
+	char *pCur;
+	unsigned CM_INT32 iCopyLen, iGetLen;
+	unsigned CM_INT32 iBufLen;
+
+	iBufLen = *piBufLen;
+
+	if (iBufLen <= 0)
+		return -1;
+
+	//get the buffer len
+	if (GetDWord(p, piLen, &iGetLen) < 0)
+		return -2;
+
+	pCur = *p;
+	if (piLen)
+		iLen = *piLen;
+	else 
+		iLen = iBufLen;
+
+	if (iGetLen > iLen)
+		return -3;
+
+	if (iBufLen > iGetLen)
+		iCopyLen = iGetLen; // general the iBufLen bigger then iGetLen
+	else
+		iCopyLen = iBufLen - 1;
+
+	memcpy(pBuf, pCur, iCopyLen);
+	*(pBuf + iCopyLen) = 0;
+
+	pCur += iCopyLen;
+	iLen -= iCopyLen;
+	
+	*p = pCur;
+	*piBufLen = iCopyLen;
+	if (piLen)
+		*piLen = iLen;
+
+	return 0;
+}
+
+int GetBufferPtr(char **p, int *piLen, char **pBufPtr, CM_INT32 *piBufLen)
+{
+	unsigned CM_INT32 iGetLen;
+	int iLen;
+	char *pCur;
+
+	if (GetDWord(p, piLen, &iGetLen) < 0)
+		return -1;
+
+	pCur = *p;
+	if (piLen)
+		iLen = *piLen;
+	else 
+		iLen = iGetLen;
+
+	if (iGetLen > iLen)
+		return -2;
+
+	if (pBufPtr)
+		*pBufPtr = pCur;
+
+	if (piBufLen)
+		*piBufLen = iGetLen;
+
+	pCur += iGetLen;
+	iLen -= iGetLen;
+
+	*p = pCur;
+	if (piLen)
+		*piLen = iLen;
+
+	return 0;
+}
+
+
+int AddBufferNoLen(char **p, int *piLen, const char *pBuf, CM_INT32 iBufLen)
+{
+	int iLen = MAX_BUFFER_LEN;
+	char *pCur;
+
+	pCur = *p;
+
+	if (piLen)
+		iLen = *piLen;
+	
+	if (iLen < iBufLen)
+		return -1;
+
+	memcpy(pCur, pBuf, iBufLen);
+	
+	pCur += iBufLen;
+	iLen -= iBufLen;
+
+	*p = pCur;
+	if (piLen)
+		*piLen = iLen;
+
+	return 0;
+}
+
+
+int GetBufferNoLen(char **p, int *piLen, char *pBuf, CM_INT32 iBufLen)
+{
+	int iLen;
+	char *pCur;
+
+	if (iBufLen <= 0)
+		return -1;
+
+	pCur = *p;
+	if (piLen)
+		iLen = *piLen;
+	else 
+		return -2;
+
+	if (iBufLen > iLen)
+		return -3;
+
+	memcpy(pBuf, pCur, iBufLen);
+
+	pCur += iBufLen;
+	iLen -= iBufLen;
+	
+	*p = pCur;
+	if (piLen)
+		*piLen = iLen;
+
+	return 0;
+}
+
