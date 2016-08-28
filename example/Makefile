@@ -12,7 +12,7 @@ COMM_DIR = ../src
 COMM_LIB = $(COMM_DIR)/cm_lib.a -I$(COMM_DIR) 
 
 ALL_BINARY = test_cm_cfg test_cm_log test_cm_shm test_cm_debug \
-			 test_cm_binary
+			 test_cm_binary test_cm_process test_cm_net
 
 ARGS = -g -Wall -fno-strict-aliasing #-Qunused-arguments
 
@@ -41,6 +41,11 @@ test_cm_debug : test_cm_debug.o
 test_cm_binary : test_cm_binary.o
 	$(CC) $(ARGS) -o $@ $^ $(COMM_LIB)
 
+test_cm_process : test_cm_process.o
+	$(CC) $(ARGS) -o $@ $^ $(COMM_LIB)
+
+test_cm_net : test_cm_net.o
+	$(CC) $(ARGS) -o $@ $^ $(COMM_LIB)
 
 clean:
 	rm -rf *.o *.a $(ALL_BINARY)
