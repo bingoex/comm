@@ -26,11 +26,16 @@ struct in_addr *atoaddr(const char *sAddress);
 int atoport(const char *sService, const char *sProto);
 
 int CreateSocketRaw(int iSockType, int *pListener, uint32_t dwListenIp, int iPort, int iIsNeedBlock);
-
 int CreateSocket(const char *sSockType, int *pListener, const char *sListenIp, const char *sPort, int iIsNeedBlock);
-
 int CreateTcpSocket(int *pListener, const char *sListenIp, const char *sPort, int iIsNeedBlock);
 int CreateUdpSocket(int *pListener, const char *sListenIp, const char *sPort, int iIsNeedBlock);
+int CreateTcpSocketEx(int *pListener, const char *sListenIp, int iPort, int iIsNeedBlock);
+int CreateUdpSocketEx(int *pListener, const char *sListenIp, int iPort, int iIsNeedBlock);
+
+int CreateClientSocketRaw(int iSockType, int *piSocket, uint32_t dwServerIp, int iPort, int iIsNeedBlock);
+int CreateClientSocket(const char *sSockType, int *piSocket, const char *sServerIp, const char *sPort, int iIsNeedBlock);
+int CreateTcpClientSocket(int *piSocket, const char *sServerIp, const char *sPort, int iIsNeedBlock);
+int CreateTcpClientSocketEx(int *piSocket, const char *sServerIp, int iPort, int iIsNeedBlock);
 
 //int GetLocalIp(const char *sInterfaceName, uint32_t *pIp);
 int IsInnerIp(in_addr_t dwIp);

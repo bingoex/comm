@@ -1,7 +1,10 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <memory.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <errno.h>
+#include <string.h>
 
 #include "cm_net.h"
 #include "cm_type.h"
@@ -74,7 +77,7 @@ int CreateSocketRaw(int iSockType, int *pListener, uint32_t dwListenIp, int iPor
 	iListenSocket = socket(AF_INET, iSockType, 0);
 	if (iListenSocket < 0) {
 		perror("socket failed");
-		return -1;
+		return -7;
 	}
 
 	if (!iIsNeedBlock) {
@@ -90,7 +93,7 @@ int CreateSocketRaw(int iSockType, int *pListener, uint32_t dwListenIp, int iPor
 
 	if (bind(iListenSocket, (struct sockaddr *) &address, sizeof(address)) < 0) {
 		perror("bind failed");
-		return -2;
+		return -9;
 	}
 
 	if (iSockType == SOCK_STREAM) {
@@ -129,6 +132,94 @@ int CreateTcpSocket(int *pListener, const char *sListenIp, const char *sPort, in
 int CreateUdpSocket(int *pListener, const char *sListenIp, const char *sPort, int iIsNeedBlock)
 {
 	return CreateSocket("udp", pListener, sListenIp, sPort, iIsNeedBlock);
+}
+
+int CreateTcpSocketEx(int *pListener, const char *sListenIp, int iPort, int iIsNeedBlock)
+{
+	static char sPort[8];
+	snprintf(sPort, sizeof(sPort) - 1, "%d", iPort);
+	//TODO
+	printf("Serverport itoa %s--\n", sPort);
+	return CreateSocket("tcp", pListener, sListenIp, sPort, iIsNeedBlock);
+}
+
+int CreateUdpSocketEx(int *pListener, const char *sListenIp, int iPort, int iIsNeedBlock)
+{
+	static char sPort[8];
+	snprintf(sPort, sizeof(sPort) - 1, "%d", iPort);
+	//TODO
+	printf("Serverport itoa %s--\n", sPort);
+	return CreateSocket("udp", pListener, sListenIp, sPort, iIsNeedBlock);
+}
+
+int CreateClientSocketRaw(int iSockType, int *piSocket, uint32_t dwServerIp, int iPort, int iIsNeedBlock)
+{
+	struct sockaddr_in address;
+	int iSocket;
+
+	memset((char *)&address, 0, sizeof(address));
+	address.sin_family = AF_INET;
+	address.sin_port = iPort;
+	address.sin_addr.s_addr = dwServerIp;
+
+	iSocket = socket(AF_INET, iSockType, 0);
+	if (iSocket < 0) {
+		perror("Client socket failed");
+		return -8;
+	}
+
+	if (!iIsNeedBlock) {
+		SetNBLock(iSocket);
+		printf("Client SetNBLock\n");
+	}
+
+	if(NULL != piSocket)
+		*piSocket = iSocket;
+
+	if (connect(iSocket, (struct sockaddr *) &address, sizeof(address)) < 0) {
+		if (!iIsNeedBlock && errno != EINPROGRESS) {
+			perror("client connect failed");
+			close(iSocket);
+			return -9;
+		}
+	}
+
+	return 0;
+}
+
+int CreateClientSocket(const char *sSockType, int *piSocket, const char *sServerIp, const char *sPort, int iIsNeedBlock)
+{
+	struct in_addr *pstAddr;
+	int iPort = 0;
+
+	if (sSockType == NULL || sServerIp == NULL || sPort == NULL)
+		return -1;
+
+	pstAddr = atoaddr(sServerIp);
+
+	iPort = atoport(sPort, sSockType);
+
+	if (strcmp(sSockType, "tcp") == 0) {
+		return  CreateClientSocketRaw(SOCK_STREAM, piSocket, pstAddr->s_addr, iPort, iIsNeedBlock);
+	} else {
+		printf("error type %s\n", sSockType);
+		return -3;
+	}
+
+	return -2;
+}
+
+int CreateTcpClientSocket(int *piSocket, const char *sServerIp, const char *sPort, int iIsNeedBlock)
+{
+	return CreateClientSocket("tcp", piSocket, sServerIp, sPort, iIsNeedBlock);
+}
+
+int CreateTcpClientSocketEx(int *piSocket, const char *sServerIp, int iPort, int iIsNeedBlock)
+{
+	static char sPort[8];
+	snprintf(sPort, sizeof(sPort) - 1, "%d", iPort);
+	printf("client port itoa %s--\n", sPort);
+	return CreateClientSocket("tcp", piSocket, sServerIp, sPort, iIsNeedBlock);
 }
 
 /*
