@@ -18,6 +18,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define NO_BLOCK 0
+#define NEED_BLOCK 1
+
 #ifdef __cplusplus
 extern "C" {
 #endif 
