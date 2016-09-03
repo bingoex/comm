@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <memory.h>
+#include <unistd.h>
+#include <fcntl.h>
 
 #include "cm_net.h"
 #include "cm_type.h"
@@ -47,9 +49,18 @@ int atoport(const char *sService, const char *sProto)
 	return iPort;
 }
 
+int SetNBLock(int iSock)
+{
+	int iFlags;
+	iFlags = fcntl(iSock, F_GETFL, 0);
+	iFlags |= O_NONBLOCK;
+	iFlags |= O_NDELAY;
+	fcntl(iSock, F_SETFL, iFlags);
+	return 0;
+}
 
 #define MAX_LISTENING_NUM 5000
-int CreateSocketRaw(int iSockType, int *pListener, uint32_t dwListenIp, int iPort)
+int CreateSocketRaw(int iSockType, int *pListener, uint32_t dwListenIp, int iPort, int iIsNeedBlock)
 {
 	struct sockaddr_in address;
 	int iListenSocket;
@@ -64,6 +75,11 @@ int CreateSocketRaw(int iSockType, int *pListener, uint32_t dwListenIp, int iPor
 	if (iListenSocket < 0) {
 		perror("socket failed");
 		return -1;
+	}
+
+	if (!iIsNeedBlock) {
+		SetNBLock(iListenSocket);
+		printf("SetNBLock\n");
 	}
 
 	if(NULL != pListener)
@@ -84,7 +100,7 @@ int CreateSocketRaw(int iSockType, int *pListener, uint32_t dwListenIp, int iPor
 	return 0;
 }
 
-int CreateSocket(const char *sSockType, int *pListener, const char *sListenIp, const char *sPort)
+int CreateSocket(const char *sSockType, int *pListener, const char *sListenIp, const char *sPort, int iIsNeedBlock)
 {
 	struct in_addr *pstAddr;
 	int iPort = 0;
@@ -97,22 +113,22 @@ int CreateSocket(const char *sSockType, int *pListener, const char *sListenIp, c
 	iPort = atoport(sPort, sSockType);
 
 	if (strcmp(sSockType, "udp") == 0) {
-		return  CreateSocketRaw(SOCK_DGRAM, pListener, pstAddr->s_addr, iPort);
+		return  CreateSocketRaw(SOCK_DGRAM, pListener, pstAddr->s_addr, iPort, iIsNeedBlock);
 	} else if (strcmp(sSockType, "tcp") == 0) {
-		return  CreateSocketRaw(SOCK_STREAM, pListener, pstAddr->s_addr, iPort);
+		return  CreateSocketRaw(SOCK_STREAM, pListener, pstAddr->s_addr, iPort, iIsNeedBlock);
 	}
 
 	return -2;
 }
 
-int CreateTcpSocket(int *pListener, const char *sListenIp, const char *sPort)
+int CreateTcpSocket(int *pListener, const char *sListenIp, const char *sPort, int iIsNeedBlock)
 {
-	return CreateSocket("tcp", pListener, sListenIp, sPort);
+	return CreateSocket("tcp", pListener, sListenIp, sPort, iIsNeedBlock);
 }
 
-int CreateUdpSocket(int *pListener, const char *sListenIp, const char *sPort)
+int CreateUdpSocket(int *pListener, const char *sListenIp, const char *sPort, int iIsNeedBlock)
 {
-	return CreateSocket("udp", pListener, sListenIp, sPort);
+	return CreateSocket("udp", pListener, sListenIp, sPort, iIsNeedBlock);
 }
 
 /*

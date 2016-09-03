@@ -25,16 +25,18 @@ extern "C" {
 struct in_addr *atoaddr(const char *sAddress);
 int atoport(const char *sService, const char *sProto);
 
-int CreateSocketRaw(int iSockType, int *pListener, uint32_t dwListenIp, int iPort);
+int CreateSocketRaw(int iSockType, int *pListener, uint32_t dwListenIp, int iPort, int iIsNeedBlock);
 
-int CreateSocket(const char *sSockType, int *pListener, const char *sListenIp, const char *sPort);
+int CreateSocket(const char *sSockType, int *pListener, const char *sListenIp, const char *sPort, int iIsNeedBlock);
 
-int CreateTcpSocket(int *pListener, const char *sListenIp, const char *sPort);
-int CreateUdpSocket(int *pListener, const char *sListenIp, const char *sPort);
+int CreateTcpSocket(int *pListener, const char *sListenIp, const char *sPort, int iIsNeedBlock);
+int CreateUdpSocket(int *pListener, const char *sListenIp, const char *sPort, int iIsNeedBlock);
 
 //int GetLocalIp(const char *sInterfaceName, uint32_t *pIp);
 int IsInnerIp(in_addr_t dwIp);
 int GetIpByName(const char *sInterfaceName, uint32_t *pIp);
+
+int SetNBLock(int iSock);
 
 #ifdef __cplusplus
 }

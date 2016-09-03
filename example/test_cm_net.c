@@ -28,14 +28,14 @@ int main()
 	//CreateSocketRaw
 	DaemonInit();
 	int iListenSock = 0;
-	iRet = CreateSocketRaw(SOCK_DGRAM, &iListenSock, htonl(INADDR_ANY), iPort);
+	iRet = CreateSocketRaw(SOCK_DGRAM, &iListenSock, htonl(INADDR_ANY), iPort, 1);
 	printf("iRet %d iListenSock %d\n", iRet, iListenSock);
 
 	//CreateSocket
-	iRet = CreateSocket("tcp", &iListenSock, "192.168.1.108", "8081");
+	iRet = CreateSocket("tcp", &iListenSock, "192.168.1.108", "8081", 1);
 	printf("iRet %d iListenSock %d\n", iRet, iListenSock);
 
-	//sleep(20);
+	sleep(20);
 
 
 
