@@ -32,7 +32,7 @@ int main()
 	printf("iRet %d iListenSock %d\n", iRet, iListenSock);
 
 	//CreateSocket
-	iRet = CreateSocket("tcp", &iListenSock, "192.168.1.108", "8081", 1);
+	iRet = CreateSocket("tcp", &iListenSock, "192.168.1.110", "8081", 0);
 	printf("iRet %d iListenSock %d\n", iRet, iListenSock);
 
 	sleep(20);

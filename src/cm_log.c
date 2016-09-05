@@ -24,8 +24,8 @@ static int ShiftFiles(LogFile *pstLogFile)
 		return -1;
 	}
 
-	printf("file size %llu lMaxFileSize %d lLogLineCount %d lMaxLineCount %d\n", 
-			stStat.st_size, pstLogFile->lMaxFileSize, pstLogFile->lLogLineCount, pstLogFile->lMaxLineCount);
+	//printf("file size %llu lMaxFileSize %d lLogLineCount %d lMaxLineCount %d\n", 
+	//		stStat.st_size, pstLogFile->lMaxFileSize, pstLogFile->lLogLineCount, pstLogFile->lMaxLineCount);
 
 	switch (pstLogFile->iShiftType) {
 		case LOG_SHIFT_BY_SIZE://0
