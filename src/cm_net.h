@@ -40,6 +40,9 @@ int CreateClientSocket(const char *sSockType, int *piSocket, const char *sServer
 int CreateTcpClientSocket(int *piSocket, const char *sServerIp, const char *sPort, int iIsNeedBlock);
 int CreateTcpClientSocketEx(int *piSocket, const char *sServerIp, int iPort, int iIsNeedBlock);
 
+int CreateUdpClientSocket(int *piSocket, const char *sServerIp, const char *sPort, int iIsNeedBlock);
+int CreateUdpClientSocketEx(int *piSocket, const char *sServerIp, int iPort, int iIsNeedBlock);
+
 //int GetLocalIp(const char *sInterfaceName, uint32_t *pIp);
 int IsInnerIp(in_addr_t dwIp);
 int GetIpByName(const char *sInterfaceName, uint32_t *pIp);

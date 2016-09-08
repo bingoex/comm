@@ -222,6 +222,18 @@ int CreateTcpClientSocketEx(int *piSocket, const char *sServerIp, int iPort, int
 	return CreateClientSocket("tcp", piSocket, sServerIp, sPort, iIsNeedBlock);
 }
 
+int CreateUdpClientSocket(int *piSocket, const char *sServerIp, const char *sPort, int iIsNeedBlock)
+{
+	return CreateClientSocket("udp", piSocket, sServerIp, sPort, iIsNeedBlock);
+}
+
+int CreateUdpClientSocketEx(int *piSocket, const char *sServerIp, int iPort, int iIsNeedBlock)
+{
+	static char sPort[8];
+	snprintf(sPort, sizeof(sPort) - 1, "%d", iPort);
+	printf("client port itoa %s--\n", sPort);
+	return CreateClientSocket("udp", piSocket, sServerIp, sPort, iIsNeedBlock);
+}
 /*
  * dwIp netword oder
  */ 
