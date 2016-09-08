@@ -5,6 +5,12 @@
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
 ARGS	Makefile	/^ARGS = -g -Wall -fno-strict-aliasing$/;"	m
+AddBuffer	cm_binary.c	/^int AddBuffer(char **p, int *piLen, const char *pBuf, CM_INT32 iBufLen)$/;"	f
+AddBufferNoLen	cm_binary.c	/^int AddBufferNoLen(char **p, int *piLen, const char *pBuf, CM_INT32 iBufLen)$/;"	f
+AddChar	cm_binary.c	/^int AddChar(char **p, int *piLen, char cValue)$/;"	f
+AddDWord	cm_binary.c	/^int AddDWord(char **p, int *piLen, unsigned CM_INT32 lValue)$/;"	f
+AddQWord	cm_binary.c	/^int AddQWord(char **p, int *piLen, uint64_t qwValue)$/;"	f
+AddWord	cm_binary.c	/^int AddWord(char **p, int *piLen, unsigned short shValue)$/;"	f
 CC	Makefile	/^CC = g++$/;"	m
 CFG_DOUBLE	cm_cfg.h	13;"	d
 CFG_INT	cm_cfg.h	11;"	d
@@ -15,29 +21,82 @@ CM_INT32	cm_type.h	7;"	d
 CPPSRC	Makefile	/^CPPSRC=$(shell ls *.cpp)$/;"	m
 CSRC	Makefile	/^CSRC=$(shell ls *.c)$/;"	m
 Comm_GetConfig	cm_cfg.c	/^int Comm_GetConfig(char * sConfigFileFullPath, ...)$/;"	f
+CreateAddr	cm_net.c	/^struct sockaddr_in * CreateAddr(const char *sIp, const char *sPort, const char *sSockType)$/;"	f
+CreateAddrEx	cm_net.c	/^struct sockaddr_in * CreateAddrEx(const char *sIp, int iPort, const char *sSockType)$/;"	f
+CreateClientSocket	cm_net.c	/^int CreateClientSocket(const char *sSockType, int *piSocket, const char *sServerIp, const char *sPort, int iIsNeedBlock)$/;"	f
+CreateClientSocketRaw	cm_net.c	/^int CreateClientSocketRaw(int iSockType, int *piSocket, uint32_t dwServerIp, int iPort, int iIsNeedBlock)$/;"	f
+CreateSocket	cm_net.c	/^int CreateSocket(const char *sSockType, int *pListener, const char *sListenIp, const char *sPort, int iIsNeedBlock)$/;"	f
+CreateSocketRaw	cm_net.c	/^int CreateSocketRaw(int iSockType, int *pListener, uint32_t dwListenIp, int iPort, int iIsNeedBlock)$/;"	f
+CreateTcpClientSocket	cm_net.c	/^int CreateTcpClientSocket(int *piSocket, const char *sServerIp, const char *sPort, int iIsNeedBlock)$/;"	f
+CreateTcpClientSocketEx	cm_net.c	/^int CreateTcpClientSocketEx(int *piSocket, const char *sServerIp, int iPort, int iIsNeedBlock)$/;"	f
+CreateTcpSocket	cm_net.c	/^int CreateTcpSocket(int *pListener, const char *sListenIp, const char *sPort, int iIsNeedBlock)$/;"	f
+CreateTcpSocketEx	cm_net.c	/^int CreateTcpSocketEx(int *pListener, const char *sListenIp, int iPort, int iIsNeedBlock)$/;"	f
+CreateUdpClientSocket	cm_net.c	/^int CreateUdpClientSocket(int *piSocket, const char *sServerIp, const char *sPort, int iIsNeedBlock)$/;"	f
+CreateUdpClientSocketEx	cm_net.c	/^int CreateUdpClientSocketEx(int *piSocket, const char *sServerIp, int iPort, int iIsNeedBlock)$/;"	f
+CreateUdpSocket	cm_net.c	/^int CreateUdpSocket(int *pListener, const char *sListenIp, const char *sPort, int iIsNeedBlock)$/;"	f
+CreateUdpSocketEx	cm_net.c	/^int CreateUdpSocketEx(int *pListener, const char *sListenIp, int iPort, int iIsNeedBlock)$/;"	f
 DEBUG	Makefile	/^DEBUG= -g$/;"	m
+DaemonInit	cm_process.c	/^void DaemonInit()$/;"	f
 DateTimeToStr	cm_time.c	/^char *DateTimeToStr(const time_t tTime)$/;"	f
+DelShm	cm_shm.c	/^int DelShm(int iKey)$/;"	f
+DumpHex	cm_debug.c	/^const char * DumpHex(const void *pMem, int iLen)$/;"	f
+DumpPackage	cm_debug.c	/^const char * DumpPackage(const void *pPkg, int iPkgLen)$/;"	f
+ERR_MSG_LEN	cm_shm.c	12;"	d	file:
 FILE_SUFFIX_LEN	cm_log.c	13;"	d	file:
+GenPrimeArray	cm_math.c	/^int GenPrimeArray(int iMax, int iNum, int array[])$/;"	f
+GetBuffer	cm_binary.c	/^int GetBuffer(char **p, int *piLen, char *pBuf, unsigned CM_INT32 *piBufLen)$/;"	f
+GetBufferNoLen	cm_binary.c	/^int GetBufferNoLen(char **p, int *piLen, char *pBuf, CM_INT32 iBufLen)$/;"	f
+GetBufferPtr	cm_binary.c	/^int GetBufferPtr(char **p, int *piLen, char **pBufPtr, CM_INT32 *piBufLen)$/;"	f
+GetChar	cm_binary.c	/^int GetChar(char **p, int *piLen, char *cValue)$/;"	f
+GetDWord	cm_binary.c	/^int GetDWord(char **p, int *piLen, unsigned CM_INT32 *plValue)$/;"	f
+GetIpByName	cm_net.c	/^int GetIpByName(const char *sInterfaceName, uint32_t *pIp)$/;"	f
+GetQWord	cm_binary.c	/^int GetQWord(char **p, int *piLen, uint64_t *pqwValue)$/;"	f
+GetReadOnlyShm	cm_shm.c	/^void * GetReadOnlyShm(int iKey)$/;"	f
+GetShm	cm_shm.c	/^void * GetShm(int iKey, int iSize, int iFlag)$/;"	f
+GetShmEx	cm_shm.c	/^int GetShmEx(void **pShm, int iKey, int iSize, int iFlag)$/;"	f
+GetShmFrocely	cm_shm.c	/^int GetShmFrocely(void **pstShm, int iKey, int iSize)$/;"	f
+GetShmSize	cm_shm.c	/^int GetShmSize(int iKey) $/;"	f
+GetWord	cm_binary.c	/^int GetWord(char **p, int *piLen, unsigned short *pshValue)$/;"	f
 InitLogFile	cm_log.c	/^int InitLogFile(LogFile * pstLogFile, const char *sBaseFileName, int iShiftType, int iMaxLogNum, CM_INT32 lMaxSize)$/;"	f
+IsInnerIp	cm_net.c	/^int IsInnerIp(in_addr_t dwIp)$/;"	f
+IsPrime	cm_math.c	/^int IsPrime(int iNum)$/;"	f
+LOCK_FILE_NAME_LEN	cm_shm.c	148;"	d	file:
 LOG_FORMAT_TYPE_NOTIME	cm_log.h	38;"	d
 LOG_FORMAT_TYPE_TIME	cm_log.h	39;"	d
 LOG_SHIFT_BY_COUNT	cm_log.h	36;"	d
 LOG_SHIFT_BY_SIZE	cm_log.h	35;"	d
 Log	cm_log.c	/^int Log(LogFile *pstLogFile, int iLogFormat, const char *sFormat, ...)$/;"	f
 LogFile	cm_log.h	/^} LogFile;$/;"	t	typeref:struct:__anon1
+MAX_BUFFER_LEN	cm_binary.c	234;"	d	file:
 MAX_CONFIG_LEN	cm_cfg.c	7;"	d	file:
+MAX_LISTENING_NUM	cm_net.c	65;"	d	file:
 MAX_LOG_FILE_NAME_LEN	cm_log.h	13;"	d
+NEED_BLOCK	cm_net.h	22;"	d
+NO_BLOCK	cm_net.h	21;"	d
 OBJS	Makefile	/^OBJS=$(CSRC:.c=.o) $/;"	m
-STRING_BUFFER_LEN	cm_time.c	6;"	d	file:
+PKG_LEN	cm_debug.c	4;"	d	file:
+STRING_BUFFER_LEN	cm_time.c	7;"	d	file:
+SetNBLock	cm_net.c	/^int SetNBLock(int iSock)$/;"	f
 ShiftFiles	cm_log.c	/^static int ShiftFiles(LogFile *pstLogFile)$/;"	f	file:
+WritePid	cm_process.c	/^int WritePid(const char *sPidFilePath)$/;"	f
+_CM_BINARY_H_	cm_binary.h	2;"	d
 _CM_CFG_H_	cm_cfg.h	2;"	d
+_CM_DEBUG_H_	cm_debug.h	2;"	d
 _CM_LOG_H_	cm_log.h	2;"	d
+_CM_MATH_H_	cm_math.h	2;"	d
+_CM_NET_H_	cm_net.h	2;"	d
+_CM_PROCESS_H_	cm_process.h	2;"	d
+_CM_SHM_H_	cm_shm.h	2;"	d
 _CM_TIME_H_	cm_time.h	2;"	d
 _CM_TYPE_H_	cm_type.h	2;"	d
 _GetNameAndVal	cm_cfg.c	/^static int _GetNameAndVal(char * sLine, char * sName, char * sVal)$/;"	f	file:
+_GetShmAndForcely	cm_shm.c	/^static int _GetShmAndForcely(void **pstShm, int iKey, int iSize)$/;"	f	file:
 _InitDefault	cm_cfg.c	/^static void _InitDefault(va_list ap)$/;"	f	file:
 _SetVal	cm_cfg.c	/^static int _SetVal(va_list ap, char *sCfgName, char *sCfgVal)$/;"	f	file:
 _get_name	cm_cfg.c	/^static int _get_name(char * desc, char * src)$/;"	f	file:
+atoaddr	cm_net.c	/^struct in_addr *atoaddr(const char *sAddress)$/;"	f
+atoport	cm_net.c	/^int atoport(const char *sService, const char *sProto)$/;"	f
+hton64	cm_binary.h	/^static inline uint64_t hton64(uint64_t qwVal)$/;"	f
 iMaxLogNum	cm_log.h	/^	int iMaxLogNum;$/;"	m	struct:__anon1
 iShiftType	cm_log.h	/^	int iShiftType;$/;"	m	struct:__anon1
 lLastShiftTime	cm_log.h	/^	CM_INT32 lLastShiftTime;$/;"	m	struct:__anon1
@@ -45,6 +104,7 @@ lLogLineCount	cm_log.h	/^	CM_INT32 lLogLineCount;$/;"	m	struct:__anon1
 lMaxCount	cm_log.h	/^	CM_INT32 lMaxCount;$/;"	m	struct:__anon1
 lMaxFileSize	cm_log.h	/^	CM_INT32 lMaxFileSize;$/;"	m	struct:__anon1
 lMaxLineCount	cm_log.h	/^	CM_INT32 lMaxLineCount;$/;"	m	struct:__anon1
+ntoh64	cm_binary.h	43;"	d
 pLogFile	cm_log.h	/^	FILE *pLogFile;$/;"	m	struct:__anon1
 sBaseFileName	cm_log.h	/^	char sBaseFileName[MAX_LOG_FILE_NAME_LEN];$/;"	m	struct:__anon1
 sLogFileName	cm_log.h	/^	char sLogFileName[MAX_LOG_FILE_NAME_LEN];$/;"	m	struct:__anon1

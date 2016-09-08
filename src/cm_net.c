@@ -202,8 +202,7 @@ int CreateClientSocket(const char *sSockType, int *piSocket, const char *sServer
 	if (strcmp(sSockType, "tcp") == 0) {
 		return  CreateClientSocketRaw(SOCK_STREAM, piSocket, pstAddr->s_addr, iPort, iIsNeedBlock);
 	} else {
-		printf("error type %s\n", sSockType);
-		return -3;
+		return  CreateClientSocketRaw(SOCK_DGRAM, piSocket, pstAddr->s_addr, iPort, iIsNeedBlock);
 	}
 
 	return -2;
