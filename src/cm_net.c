@@ -333,3 +333,28 @@ int GetIpByName(const char *sInterfaceName, uint32_t *pIp)
 	return -2;
 }
 
+struct sockaddr_in * CreateAddr(const char *sIp, const char *sPort, const char *sSockType)
+{
+	static struct sockaddr_in address;
+	struct in_addr *pstAddr = NULL;
+	int iPort = 0;
+
+	if (sIp == NULL)
+		return NULL;
+
+	pstAddr = atoaddr(sIp);
+
+	iPort = atoport(sPort, sSockType);
+
+	printf("iPort %d", iPort);
+
+	if(iPort < 0 || pstAddr == NULL)
+		return NULL;
+
+	memset((char *)&address, 0, sizeof(address));
+	address.sin_family = AF_INET;
+	address.sin_port = iPort;
+	address.sin_addr = *pstAddr;
+
+	return &address;
+}

@@ -49,6 +49,8 @@ int GetIpByName(const char *sInterfaceName, uint32_t *pIp);
 
 int SetNBLock(int iSock);
 
+struct sockaddr_in * CreateAddr(const char *sIp, const char *sPort, const char *sSockType);
+
 #ifdef __cplusplus
 }
 #endif 
