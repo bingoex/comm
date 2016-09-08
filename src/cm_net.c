@@ -358,3 +358,12 @@ struct sockaddr_in * CreateAddr(const char *sIp, const char *sPort, const char *
 
 	return &address;
 }
+
+struct sockaddr_in * CreateAddrEx(const char *sIp, int iPort, const char *sSockType)
+{
+	static char sPort[8];
+	snprintf(sPort, sizeof(sPort) - 1, "%d", iPort);
+	printf("CreateAddrEx port itoa %s--\n", sPort);
+
+	return CreateAddr(sIp, sPort, sSockType);
+}
