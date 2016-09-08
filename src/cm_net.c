@@ -176,11 +176,13 @@ int CreateClientSocketRaw(int iSockType, int *piSocket, uint32_t dwServerIp, int
 	if(NULL != piSocket)
 		*piSocket = iSocket;
 
-	if (connect(iSocket, (struct sockaddr *) &address, sizeof(address)) < 0) {
-		if (!iIsNeedBlock && errno != EINPROGRESS) {
-			perror("client connect failed");
-			close(iSocket);
-			return -9;
+	if (iSockType == SOCK_STREAM) {
+		if (connect(iSocket, (struct sockaddr *) &address, sizeof(address)) < 0) {
+			if (!iIsNeedBlock && errno != EINPROGRESS) {
+				perror("client connect failed");
+				close(iSocket);
+				return -9;
+			}
 		}
 	}
 
