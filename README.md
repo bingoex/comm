@@ -1,6 +1,7 @@
 # Comm Lib #
 
-A common lib for all C* project 
+A common lib in C language for all C* project 
+
 
 ## cm_cfg
 	a config file parse module
