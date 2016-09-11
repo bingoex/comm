@@ -22,3 +22,14 @@ A common lib for all C* project
 
 ## cm_math
 	a math module
+
+## cm_binary
+	a bin pkg operator module
+	
+## cm_time
+	a time ralay module
+
+## cm_type
+	a type module
+
+
