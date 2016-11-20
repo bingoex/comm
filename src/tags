@@ -18,8 +18,13 @@ CFG_LONG	cm_cfg.h	12;"	d
 CFG_STRING	cm_cfg.h	10;"	d
 CM_INT32	cm_type.h	11;"	d
 CM_INT32	cm_type.h	7;"	d
+CM_SemLock	lock.c	/^static int CM_SemLock(int iSemKey, int iWaitFlag, int iTimeOut)$/;"	f	file:
+CM_SemLockNoWait	lock.c	/^int CM_SemLockNoWait(int iSemKey)$/;"	f
+CM_SemLockWait	lock.c	/^int CM_SemLockWait(int iSemKey, int iTimeOut)$/;"	f
+CM_SemUnLock	lock.c	/^int CM_SemUnLock(int iSemKey)$/;"	f
 CPPSRC	Makefile	/^CPPSRC=$(shell ls *.cpp)$/;"	m
 CSRC	Makefile	/^CSRC=$(shell ls *.c)$/;"	m
+CmSemun	lock.h	/^union CmSemun$/;"	u
 Comm_GetConfig	cm_cfg.c	/^int Comm_GetConfig(char * sConfigFileFullPath, ...)$/;"	f
 CreateAddr	cm_net.c	/^struct sockaddr_in * CreateAddr(const char *sIp, const char *sPort, const char *sSockType)$/;"	f
 CreateAddrEx	cm_net.c	/^struct sockaddr_in * CreateAddrEx(const char *sIp, int iPort, const char *sSockType)$/;"	f
@@ -75,6 +80,7 @@ NEED_BLOCK	cm_net.h	22;"	d
 NO_BLOCK	cm_net.h	21;"	d
 OBJS	Makefile	/^OBJS=$(CSRC:.c=.o) $/;"	m
 PKG_LEN	cm_debug.c	4;"	d	file:
+SEM_INIT_MAX_TRIES	lock.c	8;"	d	file:
 STRING_BUFFER_LEN	cm_time.c	7;"	d	file:
 SetNBLock	cm_net.c	/^int SetNBLock(int iSock)$/;"	f
 ShiftFiles	cm_log.c	/^static int ShiftFiles(LogFile *pstLogFile)$/;"	f	file:
@@ -92,10 +98,14 @@ _CM_TYPE_H_	cm_type.h	2;"	d
 _GetNameAndVal	cm_cfg.c	/^static int _GetNameAndVal(char * sLine, char * sName, char * sVal)$/;"	f	file:
 _GetShmAndForcely	cm_shm.c	/^static int _GetShmAndForcely(void **pstShm, int iKey, int iSize)$/;"	f	file:
 _InitDefault	cm_cfg.c	/^static void _InitDefault(va_list ap)$/;"	f	file:
+_PROCNUM_CONTROL_H_	cm_procnum_control.h	2;"	d
 _SetVal	cm_cfg.c	/^static int _SetVal(va_list ap, char *sCfgName, char *sCfgVal)$/;"	f	file:
+__buf	lock.h	/^    struct seminfo *__buf;    \/* buffer for IPC_INFO *\/$/;"	m	union:CmSemun	typeref:struct:CmSemun::seminfo
 _get_name	cm_cfg.c	/^static int _get_name(char * desc, char * src)$/;"	f	file:
+array	lock.h	/^    unsigned short *array;    \/* array for GETALL, SETALL *\/$/;"	m	union:CmSemun
 atoaddr	cm_net.c	/^struct in_addr *atoaddr(const char *sAddress)$/;"	f
 atoport	cm_net.c	/^int atoport(const char *sService, const char *sProto)$/;"	f
+buf	lock.h	/^    struct semid_ds *buf;     \/* buffer for IPC_STAT, IPC_SET *\/$/;"	m	union:CmSemun	typeref:struct:CmSemun::semid_ds
 hton64	cm_binary.h	/^static inline uint64_t hton64(uint64_t qwVal)$/;"	f
 iMaxLogNum	cm_log.h	/^	int iMaxLogNum;$/;"	m	struct:__anon1
 iShiftType	cm_log.h	/^	int iShiftType;$/;"	m	struct:__anon1
@@ -106,5 +116,9 @@ lMaxFileSize	cm_log.h	/^	CM_INT32 lMaxFileSize;$/;"	m	struct:__anon1
 lMaxLineCount	cm_log.h	/^	CM_INT32 lMaxLineCount;$/;"	m	struct:__anon1
 ntoh64	cm_binary.h	43;"	d
 pLogFile	cm_log.h	/^	FILE *pLogFile;$/;"	m	struct:__anon1
+procnum_control_get_value	cm_procnum_control.c	/^int procnum_control_get_value(key_t semkey, int* pValue)$/;"	f
+procnum_control_on_exit	cm_procnum_control.c	/^int procnum_control_on_exit(key_t semkey)$/;"	f
+procnum_control_on_start	cm_procnum_control.c	/^int procnum_control_on_start(key_t semkey, int iProcNum)$/;"	f
 sBaseFileName	cm_log.h	/^	char sBaseFileName[MAX_LOG_FILE_NAME_LEN];$/;"	m	struct:__anon1
 sLogFileName	cm_log.h	/^	char sLogFileName[MAX_LOG_FILE_NAME_LEN];$/;"	m	struct:__anon1
+val	lock.h	/^    int val;                  \/* value for SETVAL *\/$/;"	m	union:CmSemun
