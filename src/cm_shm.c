@@ -210,3 +210,45 @@ int GetShmSize(int iKey)
 
 	return (int)stShmDs.shm_segsz;
 }
+
+
+char* CM_GetShm(int iKey, int iSize, int iFlag)
+{
+    int iShmID = 0;
+    char* sShm = NULL;
+
+    if ((iShmID = shmget(iKey, iSize, iFlag)) < 0) {
+        return NULL;
+    }
+
+    if ((sShm = (char*) shmat(iShmID, NULL, 0)) == (char *) - 1) {
+        return NULL;
+    }
+
+    return sShm;
+}
+
+int CM_GetShm2(void **pstShm, int iKey, size_t iSize, int iFlag)
+{
+    char *sShm;
+    if( 0 == iKey ) {
+        return -__LINE__;
+    }
+
+	//尝试attach
+    if(!(sShm = CM_GetShm(iKey, iSize, iFlag & (~IPC_CREAT)))) {
+        if(!(iFlag & IPC_CREAT))
+            return -__LINE__;
+		//创建新的
+        if(!(sShm = CM_GetShm(iKey, iSize, iFlag)))
+            return -__LINE__;
+
+		//创建新的 需清0
+        memset(sShm, 0, iSize);
+        *pstShm = sShm;
+        return 1;
+    }
+
+    *pstShm = sShm;
+    return 0;
+}

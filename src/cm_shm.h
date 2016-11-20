@@ -39,6 +39,9 @@ int GetShmSize(int iKey);
 int DelShm(int iKey);
 
 
+char* CM_GetShm(int iKey, int iSize, int iFlag);
+int CM_GetShm2(void **pstShm, int iKey, size_t iSize, int iFlag);
+
 #ifdef __cplusplus
 }
 #endif 
