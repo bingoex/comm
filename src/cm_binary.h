@@ -3,8 +3,6 @@
 
 #include <stdint.h> 
 #include <arpa/inet.h>
-
-
 #include "cm_type.h"
 
 #ifdef __cplusplus

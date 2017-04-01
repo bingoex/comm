@@ -2,6 +2,7 @@
 #define _CM_TYPE_H_
 
 
+
 #if defined __x86_64__
 
 #define CM_INT32 int
