@@ -1,6 +1,7 @@
 # Comm Lib #
 
-A common lib in C language for all C* project 
+一个简单C语言库<br/>
+A common lib in C language for all C\* project 
 
 
 ## cm_cfg
@@ -30,8 +31,9 @@ A common lib in C language for all C* project
 ## cm_time
 	a time ralay module
 
-## cm_type
-	a type module
+## cm\_type
+	统一类型宏定义
+    - INT32
 
 ## cm_procenum_ctol
 	control the number of proceess in case of too many process be start
