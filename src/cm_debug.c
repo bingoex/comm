@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <stdio.h> //snprintf
 
 #include "cm_debug.h"
 #define PKG_LEN (65535 * 4)
@@ -13,7 +13,7 @@
  * 0000: 68 65 6C 6C - 6F 20 77 6F | 72 6C 64 21 - 21 21 20 20
  * 0010: 31 32 33 34 - 35 36 37 38 | 39 31 30 00 - 
  */
-const char * DumpPackage(const void *pPkg, int iPkgLen)
+const char *DumpPackage(const void *pPkg, int iPkgLen)
 {
 	static char sBuf[PKG_LEN];
 	char *pDst = sBuf;

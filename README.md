@@ -13,8 +13,8 @@ A common lib in C language for all C\* project
 ## cm_shm
 	a system V shm tool module
 
-## cm_debug
-	a debug module
+## cm\_debug
+	提供以16进制打印sBuf的API
 
 ## cm_net
 	a net sock module
@@ -26,7 +26,7 @@ A common lib in C language for all C\* project
 	a math module
 
 ## cm\_binary
-	简单易用的二进制封包解包API
+	提供简单易用的二进制封包解包API
 	
 ## cm_time
 	a time ralay module

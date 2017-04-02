@@ -3,12 +3,18 @@
 
 
 
+/*
 #ifdef __cplusplus
 extern "C" {
 #endif 
+*/
 
 /*
- * printf the pPkg with hex
+ * 以16进制格式化输出buf的内容
+ * 注意！
+ *	1、因使用static变量，导致线程不安全
+ *	2、不要在同一个输出函数如printf中调用该函数两次
+ *			printf("dump:\n%s\n%s", DumpPackage(sBuf, sizeof(sBuf)), DumpPackage(sBuf, sizeof(sBuf)));// 错误演示
  *
  * example:
  *
@@ -21,12 +27,15 @@ extern "C" {
 const char * DumpPackage(const void *pPkg, int iPkgLen);
 
 /*
- * just print the raw hex data
+ * 无格式化
  */
 const char * DumpHex(const void *pMem, int iLen);
+/*
 #ifdef __cplusplus
 }
 #endif 
+*/
+
 
 
 #endif
