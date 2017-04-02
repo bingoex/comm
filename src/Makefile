@@ -25,4 +25,4 @@ print:
 	@echo $(OBJS)
 
 clean:
-	rm -rf *.o *.a
+	rm -rf *.o *.a a.out

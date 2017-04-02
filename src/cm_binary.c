@@ -1,9 +1,10 @@
-#include <string.h>
+#include <string.h> //memcpy
+#include <arpa/inet.h> //ntohl
 
 #include "cm_binary.h"
 
 /*
- * if the piLen == NULL, then don't care the iLen
+ * 参数piLen可以为空值，如果为空，函数将不会校验长度的合法值
  */
 int GetChar(char **p, int *piLen, char *cValue)
 {
@@ -56,10 +57,8 @@ int AddChar(char **p, int *piLen, char cValue)
 }
 
 /*
- * 32bit system :Word mean 16 bit
- * 64bit system :Word mean 32 bit
- * so use unsigned short
- * use network order
+ * 16位
+ * 超过1字节长度的值，统一存为网络序，取出时会转为本机序
  */
 int AddWord(char **p, int *piLen, unsigned short shValue)
 {
@@ -117,7 +116,7 @@ int GetWord(char **p, int *piLen, unsigned short *pshValue)
 
 
 /*
- * 32bit
+ * 32位
  */ 
 int AddDWord(char **p, int *piLen, unsigned CM_INT32 lValue)
 {
@@ -175,7 +174,7 @@ int GetDWord(char **p, int *piLen, unsigned CM_INT32 *plValue)
 
 
 /*
- * 64bit
+ * 64位
  */ 
 int AddQWord(char **p, int *piLen, uint64_t qwValue)
 {
@@ -231,6 +230,10 @@ int GetQWord(char **p, int *piLen, uint64_t *pqwValue)
 	return 0;
 }
 
+/*
+ * iBufLen上限为32位
+ * 内容：BuffLen（网络序） ＋ Buff
+ */
 #define MAX_BUFFER_LEN (1024 * 1024)
 int AddBuffer(char **p, int *piLen, const char *pBuf, CM_INT32 iBufLen)
 {
@@ -262,7 +265,6 @@ int AddBuffer(char **p, int *piLen, const char *pBuf, CM_INT32 iBufLen)
 }
 
 /*
- *
  * piBufLen max bigger then actually buffer data len
  */ 
 int GetBuffer(char **p, int *piLen, char *pBuf, unsigned CM_INT32 *piBufLen)
@@ -290,13 +292,14 @@ int GetBuffer(char **p, int *piLen, char *pBuf, unsigned CM_INT32 *piBufLen)
 	if (iGetLen > iLen)
 		return -3;
 
-	if (iBufLen > iGetLen)
+	if (iBufLen >= iGetLen)
 		iCopyLen = iGetLen; // general the iBufLen bigger then iGetLen
 	else
-		iCopyLen = iBufLen - 1;
+		return -5;
+		//iCopyLen = iBufLen - 1;
 
 	memcpy(pBuf, pCur, iCopyLen);
-	*(pBuf + iCopyLen) = 0;
+	//*(pBuf + iCopyLen) = 0;
 
 	pCur += iCopyLen;
 	iLen -= iCopyLen;
@@ -309,6 +312,9 @@ int GetBuffer(char **p, int *piLen, char *pBuf, unsigned CM_INT32 *piBufLen)
 	return 0;
 }
 
+/*
+ * 不拷贝buf，pBufPtr指向p中的buf
+ */
 int GetBufferPtr(char **p, int *piLen, char **pBufPtr, CM_INT32 *piBufLen)
 {
 	unsigned CM_INT32 iGetLen;
@@ -344,6 +350,10 @@ int GetBufferPtr(char **p, int *piLen, char **pBufPtr, CM_INT32 *piBufLen)
 }
 
 
+/*
+ * 只添加Buf,不添加长度
+ * 内容：buf
+ */
 int AddBufferNoLen(char **p, int *piLen, const char *pBuf, CM_INT32 iBufLen)
 {
 	int iLen = MAX_BUFFER_LEN;
@@ -399,3 +409,38 @@ int GetBufferNoLen(char **p, int *piLen, char *pBuf, CM_INT32 iBufLen)
 	return 0;
 }
 
+/*
+#include<stdio.h> //printf
+#include "cm_debug.h"
+int main() 
+{
+	char buf[1024];
+	int len = sizeof(buf);
+	char c;
+	char sKeyBuf[512] = {'A', 'B', 'C'};
+	uint32_t iKeyLen = sizeof(sKeyBuf) - 1;
+	uint32_t dwLen;
+
+	char *p = buf;
+
+	// 封包
+	if (AddChar(&p, &len, 'D')) { printf("AddChar error\n"); return -1; }
+	if (AddDWord(&p, &len, 65538)) { printf("AddDWord error\n"); return -1; }
+	if (AddBuffer(&p, &len, sKeyBuf, iKeyLen)) { printf("AddBuffer error\n"); return -1; }
+	printf("remainlen %d size %ld iKeyLen %u \n", len, p - buf, iKeyLen);
+	printf("===================================================================\n");
+
+
+	// 解包
+	p = buf;
+	len = sizeof(buf);
+	memset(sKeyBuf, 0, sizeof(sKeyBuf));
+	if (GetChar(&p, &len, &c)) { printf("GetChar error\n"); return -1; }
+	if (GetDWord(&p, &len, &dwLen)) { printf("GetDWord error\n"); return -1; }
+	if (GetBuffer(&p, &len, sKeyBuf, &iKeyLen)) { printf("GetBuffer error\n"); return -1; }
+	printf("remainlen %d size %ld\n", len, p - buf);
+	printf("c %c\n", c);
+	printf("dwLen %u\n", dwLen);
+	printf("iKeyLen %d sKeyBuf\n%s\n", iKeyLen, DumpPackage(sKeyBuf, iKeyLen));
+}
+*/

@@ -25,14 +25,14 @@ A common lib in C language for all C\* project
 ## cm_math
 	a math module
 
-## cm_binary
-	a bin pkg operator module
+## cm\_binary
+	简单易用的二进制封包解包API
 	
 ## cm_time
 	a time ralay module
 
 ## cm\_type
-	统一类型宏定义
+	提供统一的类型宏定义
 	INT32
 
 ## cm_procenum_ctol
