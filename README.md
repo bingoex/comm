@@ -40,5 +40,5 @@ A common lib in C language for all C\* project
 ## cm_procenum_ctol
 	control the number of proceess in case of too many process be start
 
-## cm_lock
-	a lock module that use semaphore
+## cm\_lock
+	提供简单信号量封装API
