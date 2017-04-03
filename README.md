@@ -4,8 +4,8 @@
 A common lib in C language for all C\* project 
 
 
-## cm_cfg
-	a config file parse module
+## cm\_cfg
+	提供简单k-v形式配置文件读取API
 
 ## cm_log
 	a log module
@@ -24,8 +24,8 @@ A common lib in C language for all C\* project
 
 ## cm\_math
 	提供简单数学API
-	素数判断
-	素数数组生成
+	- 素数判断
+	- 素数数组生成
 
 ## cm\_binary
 	提供简单易用的二进制封包解包API
@@ -35,7 +35,7 @@ A common lib in C language for all C\* project
 
 ## cm\_type
 	提供统一的类型宏定义
-	INT32
+	- INT32
 
 ## cm_procenum_ctol
 	control the number of proceess in case of too many process be start
