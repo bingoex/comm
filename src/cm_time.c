@@ -1,6 +1,5 @@
-#include <string.h>
 #include <stdio.h>
-#include <time.h>
+#include <time.h> //tm time
 
 #include "cm_time.h"
 
@@ -25,3 +24,11 @@ char *DateTimeToStr(const time_t tTime)
 
 	return sBuff;
 }
+
+/*
+int main()
+{
+	time_t t = time(NULL);
+	printf("now : %s\n", DateTimeToStr(t));
+}
+*/

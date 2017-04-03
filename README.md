@@ -28,8 +28,8 @@ A common lib in C language for all C\* project
 ## cm\_binary
 	提供简单易用的二进制封包解包API
 	
-## cm_time
-	a time ralay module
+## cm\_time
+	提供tm转字符串API
 
 ## cm\_type
 	提供统一的类型宏定义
