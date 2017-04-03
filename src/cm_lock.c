@@ -24,13 +24,14 @@ static int CM_SemLock(int iSemKey, int iTimeOut)
 
 	// 资源个数初始化1
 	// IPC_EXCL 已存在则产生错误, IPC_CREAT 不存在则创建
-    iLockId = semget(iSemKey, 1, IPC_CREAT|IPC_EXCL|0666);
+	iLockId = semget(iSemKey, 1, IPC_CREAT|IPC_EXCL|0666);
     if(iLockId >= 0) {
+		// 新创建
         arg.val = 1;
         semctl(iLockId, 0, SETVAL, arg);
     }
     else if(errno == EEXIST) {
-		// 存在则单纯的get, 并获取信号量状态信息
+		// 已存在则单纯的get, 并获取信号量状态信息
         iLockId = semget(iSemKey, 1, 0666);
         arg.buf = &stSemInfo;
 		// TODO
