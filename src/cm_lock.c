@@ -21,6 +21,7 @@ static int CM_SemLock(int iSemKey, int iTimeOut)
     int iMaxRetry = (iTimeOut+9)/10;
     int iRetry = 0;
     int i = 0;
+
     // 资源个数初始化1
     // IPC_EXCL 已存在则产生错误, IPC_CREAT 不存在则创建
     iLockId = semget(iSemKey, 1, IPC_CREAT|IPC_EXCL|0666);
