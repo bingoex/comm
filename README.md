@@ -19,13 +19,15 @@ A common lib in C language for all C\* project
 ## cm_net
 	a net sock module
 
-## cm_process
-	a process module
+## cm\_process
+    提供进程相关API
+    - 初始化Daemon进程
+    - pid文件写入
 
 ## cm\_math
 	提供简单数学API
-	- 素数判断
-	- 素数数组生成
+    - 素数判断
+    - 素数数组生成
 
 ## cm\_binary
 	提供简单易用的二进制封包解包API

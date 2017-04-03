@@ -126,6 +126,7 @@ int Log(LogFile *pstLogFile, int iLogFormat, const char *sFormat, ...)
 	return ShiftFiles(pstLogFile);
 }
 
+/*
 int main(int argc, char * argv[])
 {
 	LogFile stLogFile;
@@ -135,4 +136,4 @@ int main(int argc, char * argv[])
     
     return 0;
 }
-
+*/

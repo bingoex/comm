@@ -1,16 +1,10 @@
-#include <signal.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <sys/param.h>
-#include <stdio.h>
-#include <sys/types.h> 
-#include <sys/stat.h> 
-#include <stdio.h>
-#include <string.h>
+#include <unistd.h> //fork setsid chdir getpid
+#include <stdlib.h> //exit
+#include <sys/param.h> //NOFILE
+#include <sys/stat.h>  //umask
+#include <stdio.h> //FILE
 
 #include "cm_process.h"
-
-
 
 void DaemonInit()
 {
@@ -57,3 +51,14 @@ int WritePid(const char *sPidFilePath)
 	return 0;
 }
 
+/*
+int main()
+{
+    DaemonInit();
+    WritePid("/tmp/log/pid.log");
+    while(true) {
+    }
+
+    return 0;
+}
+*/
