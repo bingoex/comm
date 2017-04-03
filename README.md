@@ -7,14 +7,14 @@ A common lib in C language for all C\* project
 ## cm\_cfg
 	提供简单k-v形式配置文件读取API
 
-## cm_log
-	a log module
+## cm\_log
+    提供带轮询功能的日志API
 
 ## cm_shm
 	a system V shm tool module
 
 ## cm\_debug
-	提供以16进制打印sBuf的API
+	提供以16进制打印Buf的API
 
 ## cm_net
 	a net sock module

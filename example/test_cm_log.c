@@ -12,5 +12,5 @@ int main(int argc, char * argv[])
 	
 	Log(&stLogFile, LOG_FORMAT_TYPE_TIME, "hehehe %d", 1);
 
-
+    return 0;
 }
