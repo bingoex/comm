@@ -22,8 +22,10 @@ A common lib in C language for all C\* project
 ## cm_process
 	a process module
 
-## cm_math
-	a math module
+## cm\_math
+	提供简单数学API
+	素数判断
+	素数数组生成
 
 ## cm\_binary
 	提供简单易用的二进制封包解包API
