@@ -37,7 +37,7 @@ A common lib in C language for all C\* project
 
 ## cm\_type
 	提供统一的类型宏定义
-	- INT32
+    - INT32
 
 ## cm_procenum_ctol
 	control the number of proceess in case of too many process be start
