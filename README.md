@@ -39,8 +39,8 @@ A common lib in C language for all C\* project
 	提供统一的类型宏定义
     - INT32
 
-## cm_procenum_ctol
-	control the number of proceess in case of too many process be start
+## cm\_procenum\_ctol
+    通过信号量，提供保证进程只启动一次的API
 
 ## cm\_lock
 	提供简单信号量封装API
