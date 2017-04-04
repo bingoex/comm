@@ -10,8 +10,11 @@ A common lib in C language for all C\* project
 ## cm\_log
     提供带轮询功能的日志API
 
-## cm_shm
-	a system V shm tool module
+## cm\_shm
+    封装SystemV系列共享内存操作API
+    - 各种获取API
+    - 获取共享内存大小
+    - 删除共享内存API
 
 ## cm\_debug
 	提供以16进制打印Buf的API
