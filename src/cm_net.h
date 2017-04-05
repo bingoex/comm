@@ -3,6 +3,7 @@
 
 
 
+#define NO_BLOCK 0 //其他框架会使用到
 /*
 #ifdef __cplusplus
 extern "C" {
