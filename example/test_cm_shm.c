@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <sys/time.h>
+#include <fcntl.h> //O_RDWR O_CREAT
 
 #include "cm_shm.h"
 

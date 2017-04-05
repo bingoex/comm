@@ -1,4 +1,12 @@
 #include <stdio.h>
+#include <stdlib.h> //strtol
+#include <unistd.h> //close
+#include <fcntl.h> //F_GETFL O_NONBLOCK O_NDELAY F_SETFL
+#include <errno.h> //EINPROGRESS
+#include <string.h> //strcmp memset
+#include <ifaddrs.h> //getifaddrs ifaddrs freeifaddrs
+#include <netdb.h> //gethostbyname hostent getservbyname servent
+#include <arpa/inet.h> //inet_addr
 
 #include "cm_process.h"
 #include "cm_net.h"

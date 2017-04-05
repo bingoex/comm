@@ -3,6 +3,8 @@
 
 
 
+#include <sys/shm.h> //shm
+
 /*
 #ifdef __cplusplus
 extern "C" {
