@@ -19,8 +19,18 @@ A common lib in C language for all C\* project
 ## cm\_debug
 	提供以16进制打印Buf的API
 
-## cm_net
-	a net sock module
+## cm\_net
+    提供网络相关API
+    - 字符串转in\_addr
+    - 字符串转端口
+    - 创建socket并监听
+    - 创建发布socket（tcp则默认connect）
+    - 判断ip是否内网
+    - 根据网卡名字获取ip
+    - 设置fd为非阻塞
+    - 根据ip、port生成sockaddr\_in
+    - 
+    - 
 
 ## cm\_process
     提供进程相关API

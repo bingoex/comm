@@ -1,25 +1,33 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <memory.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <errno.h>
-#include <string.h>
+#include <stdlib.h> //strtol
+#include <unistd.h> //close
+#include <fcntl.h> //F_GETFL O_NONBLOCK O_NDELAY F_SETFL
+#include <errno.h> //EINPROGRESS
+#include <string.h> //strcmp memset
+#include <ifaddrs.h> //getifaddrs ifaddrs freeifaddrs
+#include <netdb.h> //gethostbyname hostent getservbyname servent
+#include <arpa/inet.h> //inet_addr
 
 #include "cm_net.h"
 #include "cm_type.h"
 
+#define NO_BLOCK 0
+#define NEED_BLOCK 1
+#define MAX_LISTENING_NUM 5000
+
+/*
+ * char * 转换为in_addr
+ * 支持ip字符串（xxx.xxx.xxx.xxx）和 hostname
+ */
 struct in_addr *atoaddr(const char *sAddress)
 {
 	static struct in_addr stSaddr;
 	struct hostent *pHost;
 
-	//if sAddress == XXX.XXX.XXX.XXX
+	//如果 sAddress == XXX.XXX.XXX.XXX
 	stSaddr.s_addr = inet_addr(sAddress);
 	if (stSaddr.s_addr != -1)
 		return &stSaddr;
-
-	printf("try gethostbyname\n");
 
 	pHost = gethostbyname(sAddress);
 	if (pHost != NULL)
@@ -29,6 +37,10 @@ struct in_addr *atoaddr(const char *sAddress)
 }
 
 
+/*
+ * char * 转换为端口
+ * 支持端口数字字符串（“8080”）和 getservbyname
+ */
 int atoport(const char *sService, const char *sProto)
 {
 	int iPort;
@@ -40,18 +52,20 @@ int atoport(const char *sService, const char *sProto)
 	pstServ = getservbyname(sService, sProto);
 	if (pstServ != NULL) {
 		iPort = pstServ->s_port;
-		printf("getservbyname %d\n", ntohs(iPort));
 	} else {
 		lPort = strtol(sService, &sErrpos, 0);
 		if (sErrpos[0] != 0 || lPort < 1 || lPort > 65535)
 			return -1;
 
 		iPort = htons(lPort);
-		printf("strtol %d\n", lPort);
 	}
+
 	return iPort;
 }
 
+/*
+ * 设置fd为非阻塞
+ */
 int SetNBLock(int iSock)
 {
 	int iFlags;
@@ -62,7 +76,18 @@ int SetNBLock(int iSock)
 	return 0;
 }
 
-#define MAX_LISTENING_NUM 5000
+/*
+ * 创建socket并监听(如果为tcp协议)
+ * 参数说明：
+ *      iSockType：SOCK_DGRAM/SOCK_STREAM
+ *      pListener: 监听socket，返回值
+ *      dwListenIp：ip网络序
+ *      iPort：端口网络序
+ *      iIsNeedBlock：是否阻塞(1是)
+ *  返回值：
+ *      0：成功
+ *      非0:失败
+ */
 int CreateSocketRaw(int iSockType, int *pListener, uint32_t dwListenIp, int iPort, int iIsNeedBlock)
 {
 	struct sockaddr_in address;
@@ -82,7 +107,6 @@ int CreateSocketRaw(int iSockType, int *pListener, uint32_t dwListenIp, int iPor
 
 	if (!iIsNeedBlock) {
 		SetNBLock(iListenSocket);
-		printf("SetNBLock\n");
 	}
 
 	if(NULL != pListener)
@@ -103,6 +127,18 @@ int CreateSocketRaw(int iSockType, int *pListener, uint32_t dwListenIp, int iPor
 	return 0;
 }
 
+/*
+ * 创建socket并监听(如果为tcp协议)
+ * 参数说明：
+ *      sSockType：tcp/udp字符串
+ *      pListener: 监听socket，返回值
+ *      sListenIp：ip字符串
+ *      sPort：端口字符串
+ *      iIsNeedBlock：是否阻塞(1是)
+ *  返回值：
+ *      0：成功
+ *      非0:失败
+ */
 int CreateSocket(const char *sSockType, int *pListener, const char *sListenIp, const char *sPort, int iIsNeedBlock)
 {
 	struct in_addr *pstAddr;
@@ -112,7 +148,6 @@ int CreateSocket(const char *sSockType, int *pListener, const char *sListenIp, c
 		return -1;
 
 	pstAddr = atoaddr(sListenIp);
-
 	iPort = atoport(sPort, sSockType);
 
 	if (strcmp(sSockType, "udp") == 0) {
@@ -124,11 +159,33 @@ int CreateSocket(const char *sSockType, int *pListener, const char *sListenIp, c
 	return -2;
 }
 
+/*
+ * 创建tcp socket并监听
+ * 参数说明：
+ *      pListener: 监听socket，返回值
+ *      sListenIp：ip字符串
+ *      sPort：端口字符串
+ *      iIsNeedBlock：是否阻塞(1是)
+ *  返回值：
+ *      0：成功
+ *      非0:失败
+ */
 int CreateTcpSocket(int *pListener, const char *sListenIp, const char *sPort, int iIsNeedBlock)
 {
 	return CreateSocket("tcp", pListener, sListenIp, sPort, iIsNeedBlock);
 }
 
+/*
+ * 创建udp socket
+ * 参数说明：
+ *      pListener: 监听socket，返回值
+ *      sListenIp：ip字符串
+ *      sPort：端口字符串
+ *      iIsNeedBlock：是否阻塞(1是)
+ *  返回值：
+ *      0：成功
+ *      非0:失败
+ */
 int CreateUdpSocket(int *pListener, const char *sListenIp, const char *sPort, int iIsNeedBlock)
 {
 	return CreateSocket("udp", pListener, sListenIp, sPort, iIsNeedBlock);
@@ -138,8 +195,6 @@ int CreateTcpSocketEx(int *pListener, const char *sListenIp, int iPort, int iIsN
 {
 	static char sPort[8];
 	snprintf(sPort, sizeof(sPort) - 1, "%d", iPort);
-	//TODO
-	printf("Serverport itoa %s--\n", sPort);
 	return CreateSocket("tcp", pListener, sListenIp, sPort, iIsNeedBlock);
 }
 
@@ -147,11 +202,21 @@ int CreateUdpSocketEx(int *pListener, const char *sListenIp, int iPort, int iIsN
 {
 	static char sPort[8];
 	snprintf(sPort, sizeof(sPort) - 1, "%d", iPort);
-	//TODO
-	printf("Serverport itoa %s--\n", sPort);
 	return CreateSocket("udp", pListener, sListenIp, sPort, iIsNeedBlock);
 }
 
+/*
+ * 创建发包socket (如果tcp协议则conn)
+ * 参数说明：
+ *      iSockType：SOCK_DGRAM/SOCK_STREAM
+ *      piSocket: 发包socketfd，返回值
+ *      dwServerIp：服务器ip（网络序）
+ *      iPort：服务器端口
+ *      iIsNeedBlock：是否阻塞(1是)
+ *  返回值：
+ *      0：成功
+ *      非0:失败
+ */
 int CreateClientSocketRaw(int iSockType, int *piSocket, uint32_t dwServerIp, int iPort, int iIsNeedBlock)
 {
 	struct sockaddr_in address;
@@ -170,7 +235,6 @@ int CreateClientSocketRaw(int iSockType, int *piSocket, uint32_t dwServerIp, int
 
 	if (!iIsNeedBlock) {
 		SetNBLock(iSocket);
-		printf("Client SetNBLock\n");
 	}
 
 	if(NULL != piSocket)
@@ -189,6 +253,18 @@ int CreateClientSocketRaw(int iSockType, int *piSocket, uint32_t dwServerIp, int
 	return 0;
 }
 
+/*
+ * 创建发包socket (如果tcp协议则conn)
+ * 参数说明：
+ *      sSockType：tcp/udp
+ *      piSocket: 发包socketfd，返回值
+ *      sServerIp：服务器ip
+ *      sPort：服务器端口
+ *      iIsNeedBlock：是否阻塞(1是)
+ *  返回值：
+ *      0：成功
+ *      非0:失败
+ */
 int CreateClientSocket(const char *sSockType, int *piSocket, const char *sServerIp, const char *sPort, int iIsNeedBlock)
 {
 	struct in_addr *pstAddr;
@@ -198,7 +274,6 @@ int CreateClientSocket(const char *sSockType, int *piSocket, const char *sServer
 		return -1;
 
 	pstAddr = atoaddr(sServerIp);
-
 	iPort = atoport(sPort, sSockType);
 
 	if (strcmp(sSockType, "tcp") == 0) {
@@ -219,7 +294,6 @@ int CreateTcpClientSocketEx(int *piSocket, const char *sServerIp, int iPort, int
 {
 	static char sPort[8];
 	snprintf(sPort, sizeof(sPort) - 1, "%d", iPort);
-	printf("client port itoa %s--\n", sPort);
 	return CreateClientSocket("tcp", piSocket, sServerIp, sPort, iIsNeedBlock);
 }
 
@@ -232,11 +306,11 @@ int CreateUdpClientSocketEx(int *piSocket, const char *sServerIp, int iPort, int
 {
 	static char sPort[8];
 	snprintf(sPort, sizeof(sPort) - 1, "%d", iPort);
-	printf("client port itoa %s--\n", sPort);
 	return CreateClientSocket("udp", piSocket, sServerIp, sPort, iIsNeedBlock);
 }
+
 /*
- * dwIp netword oder
+ * 判断dwip是否为内网
  */ 
 int IsInnerIp(in_addr_t dwIp)
 {
@@ -252,7 +326,6 @@ int IsInnerIp(in_addr_t dwIp)
 		dwInnerIp3 = ntohl(inet_addr("192.168.0.0"));
 	}
 
-	//channg to h
 	dwIp = ntohl(dwIp);
 
 	if (((dwIp & 0xFF000000) == dwInnerIp1)
@@ -293,12 +366,20 @@ int GetLocalIp(const char *sInterfaceName, uint32_t *pIp)
 
 	memcpy((void *) &dwIp, (char *)&if_data.ifr_addr.sa_data + 2, sizeof(dwIp));
 
-	*pIp = dwIp;
+    if (pIp != NULL) *pIp = dwIp;
 
 	return IsInnerIp((in_addr_t)dwIp);
 }
 */
 
+/*
+ * 根据网卡名字获取ip
+ * 参数说明：
+ *      sInterfaceName：网卡名字（如“eth1”、“en1”）
+ *      pIp：网卡ip（网络序）出参
+ * 返回值：
+ *      pIp是否内网（1是）
+ */
 int GetIpByName(const char *sInterfaceName, uint32_t *pIp)
 {
 	struct sockaddr_in *sin = NULL;
@@ -306,10 +387,8 @@ int GetIpByName(const char *sInterfaceName, uint32_t *pIp)
 
 	if (getifaddrs(&ifList) < 0) return -1;
 
-	for (ifa = ifList; ifa != NULL; ifa = ifa->ifa_next)
-	{
-		if(ifa->ifa_addr->sa_family == AF_INET)
-		{
+	for (ifa = ifList; ifa != NULL; ifa = ifa->ifa_next) {
+		if(ifa->ifa_addr->sa_family == AF_INET) {
 			printf("\n>>> interfaceName: %s\n", ifa->ifa_name);
 
 			sin = (struct sockaddr_in *)ifa->ifa_addr;
@@ -323,7 +402,9 @@ int GetIpByName(const char *sInterfaceName, uint32_t *pIp)
 
 			if ((sInterfaceName == NULL && !strcmp(ifa->ifa_name, "en1"))
 					|| (sInterfaceName != NULL  && !strcmp(ifa->ifa_name, sInterfaceName))) {
-				*pIp  = ((struct sockaddr_in *)ifa->ifa_addr)->sin_addr.s_addr;
+                if (pIp != NULL)
+                    *pIp  = ((struct sockaddr_in *)ifa->ifa_addr)->sin_addr.s_addr;
+
 				return IsInnerIp((in_addr_t)*pIp);
 			}
 		}
@@ -334,6 +415,9 @@ int GetIpByName(const char *sInterfaceName, uint32_t *pIp)
 	return -2;
 }
 
+/*
+ * 根据ip、port生成sockaddr_in
+ */
 struct sockaddr_in * CreateAddr(const char *sIp, const char *sPort, const char *sSockType)
 {
 	static struct sockaddr_in address;
@@ -344,10 +428,7 @@ struct sockaddr_in * CreateAddr(const char *sIp, const char *sPort, const char *
 		return NULL;
 
 	pstAddr = atoaddr(sIp);
-
 	iPort = atoport(sPort, sSockType);
-
-	printf("iPort %d", iPort);
 
 	if(iPort < 0 || pstAddr == NULL)
 		return NULL;
@@ -364,7 +445,6 @@ struct sockaddr_in * CreateAddrEx(const char *sIp, int iPort, const char *sSockT
 {
 	static char sPort[8];
 	snprintf(sPort, sizeof(sPort) - 1, "%d", iPort);
-	printf("CreateAddrEx port itoa %s--\n", sPort);
 
 	return CreateAddr(sIp, sPort, sSockType);
 }
