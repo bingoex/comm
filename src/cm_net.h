@@ -3,6 +3,9 @@
 
 
 
+#include <unistd.h> //close
+#include <ifaddrs.h> //getifaddrs ifaddrs freeifaddrs
+#include <arpa/inet.h> //inet_addr
 #define NO_BLOCK 0 //其他框架会使用到
 /*
 #ifdef __cplusplus
